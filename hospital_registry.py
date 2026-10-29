@@ -204,157 +204,265 @@ PAGE = """<!DOCTYPE html>
 <title>Hospital Patient Registry</title>
 <style>
 :root {
-  --navy: #253068;
-  --blue: #5479fb;
+  --navy: #1e2a5e;
+  --navy-2: #2c3b86;
+  --blue: #4f6ef7;
+  --blue-soft: #e8edff;
   --orange: #ff7a45;
+  --orange-soft: #ffe9df;
   --purple: #8e2391;
-  --green: #00bfa5;
-  --bg: #f6f8fc;
+  --green: #12b8a0;
+  --green-soft: #d9f6f1;
+  --bg: #f3f5fb;
   --card: #ffffff;
-  --line: #d7dcec;
+  --line: #e1e5f2;
   --text: #1f2547;
-  --muted: #6b7399;
-  --danger: #e53935;
+  --muted: #6f7799;
+  --danger: #e5484d;
+  --shadow: 0 10px 30px rgba(30, 42, 94, 0.08);
+  --radius: 16px;
 }
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-  background: var(--bg);
+  font-family: "Inter", "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif;
+  background:
+    radial-gradient(900px 400px at 100% -10%, #e3e9ff 0%, transparent 60%),
+    radial-gradient(700px 400px at -10% 30%, #ffeee5 0%, transparent 55%),
+    var(--bg);
+  background-attachment: fixed;
   color: var(--text);
+  min-height: 100vh;
 }
 header {
-  background: var(--navy);
+  background: linear-gradient(120deg, var(--navy) 0%, var(--navy-2) 60%, #4a3fa8 100%);
   color: #fff;
-  padding: 22px 32px;
+  padding: 26px 40px 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 20px;
+  border-radius: 0 0 28px 28px;
+  box-shadow: 0 12px 34px rgba(30, 42, 94, 0.25);
 }
-header h1 { margin: 0; font-size: 26px; }
-header h1 span { color: var(--orange); }
-header p { margin: 4px 0 0; color: #c5cdf5; font-size: 14px; }
+.brand { display: flex; align-items: center; gap: 16px; }
+.logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.14);
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.logo svg { width: 30px; height: 30px; }
+header h1 { margin: 0; font-size: 26px; letter-spacing: -0.3px; }
+header h1 span { color: #ffb08a; }
+header p { margin: 4px 0 0; color: #c9d1f7; font-size: 14px; }
 .stats { display: flex; gap: 12px; flex-wrap: wrap; }
 .stat {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 8px 16px;
-  min-width: 90px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 10px 18px;
+  min-width: 104px;
   text-align: center;
+  backdrop-filter: blur(6px);
+  transition: transform 0.2s;
 }
-.stat b { display: block; font-size: 22px; }
-.stat small { color: #c5cdf5; }
+.stat:hover { transform: translateY(-2px); }
+.stat b { display: block; font-size: 24px; line-height: 1.2; }
+.stat small { color: #c9d1f7; font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; }
 main {
   display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 20px;
-  padding: 20px 32px 32px;
+  grid-template-columns: 350px 1fr;
+  gap: 24px;
+  padding: 26px 40px 40px;
+  max-width: 1500px;
+  margin: 0 auto;
 }
-@media (max-width: 960px) {
-  main { grid-template-columns: 1fr; padding: 16px; }
+@media (max-width: 980px) {
+  main { grid-template-columns: 1fr; padding: 18px; }
+  header { padding: 22px 18px; }
 }
 .card {
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 18px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 14px rgba(37, 48, 104, 0.06);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
 }
 .card h2 {
-  margin: 0 0 12px;
-  font-size: 16px;
+  margin: 0 0 14px;
+  font-size: 15px;
   color: var(--navy);
-  border-left: 4px solid var(--orange);
-  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
 }
-label { display: block; font-size: 12px; color: var(--muted); margin: 10px 0 4px; }
-input, select {
+.card h2 .dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: var(--orange-soft);
+  color: var(--orange);
+}
+.card h2 .dot svg { width: 16px; height: 16px; }
+.card h2 .dot.blue { background: var(--blue-soft); color: var(--blue); }
+.card h2 .dot.green { background: var(--green-soft); color: var(--green); }
+.card h2 .dot.purple { background: #f6e3f7; color: var(--purple); }
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 12px 0 5px;
+}
+input {
   width: 100%;
-  padding: 9px 10px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  padding: 11px 13px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
   font-size: 14px;
+  font-family: inherit;
   color: var(--text);
-  background: #fff;
+  background: #fafbff;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
 }
-input:focus, select:focus { outline: 2px solid var(--blue); border-color: var(--blue); }
-.row { display: flex; gap: 8px; }
-.row > * { flex: 1; }
+input::placeholder { color: #a9b0cc; }
+input:focus {
+  outline: none;
+  border-color: var(--blue);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(79, 110, 247, 0.15);
+}
+.row { display: flex; gap: 10px; }
+.row > * { flex: 1; min-width: 0; }
 button {
-  margin-top: 12px;
-  padding: 10px 14px;
+  margin-top: 14px;
+  padding: 11px 16px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
   color: #fff;
-  background: var(--blue);
+  background: linear-gradient(135deg, #5b79ff, #4160ee);
   width: 100%;
+  box-shadow: 0 6px 14px rgba(79, 110, 247, 0.3);
+  transition: transform 0.12s, box-shadow 0.12s, filter 0.12s;
 }
-button:hover { filter: brightness(1.08); }
-button.orange { background: var(--orange); }
-button.purple { background: var(--purple); }
-button.danger { background: var(--danger); }
-button.green { background: var(--green); }
+button:hover { transform: translateY(-1px); filter: brightness(1.06); }
+button:active { transform: translateY(1px); box-shadow: none; }
+button:focus-visible { outline: 3px solid rgba(79, 110, 247, 0.4); outline-offset: 2px; }
+button.orange { background: linear-gradient(135deg, #ff9566, #ff7a45); box-shadow: 0 6px 14px rgba(255, 122, 69, 0.3); }
+button.danger { background: linear-gradient(135deg, #ef6a6e, #e5484d); box-shadow: 0 6px 14px rgba(229, 72, 77, 0.28); }
+button.purple {
+  background: #fff;
+  color: var(--purple);
+  border: 1.5px solid #e6c9e8;
+  box-shadow: none;
+  margin-top: 0;
+}
+button.purple:hover { background: #faf0fb; }
+button.purple.on { background: var(--purple); color: #fff; border-color: var(--purple); }
 .toast {
-  min-height: 22px;
-  margin-top: 10px;
+  margin-top: 12px;
+  padding: 0 12px;
+  border-radius: 10px;
   font-size: 13px;
   font-weight: 600;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.25s;
 }
-.toast.ok { color: #1b8f5a; }
-.toast.error { color: var(--danger); }
+.toast.ok, .toast.error { max-height: 80px; opacity: 1; padding: 10px 12px; }
+.toast.ok { background: var(--green-soft); color: #0b7d6c; }
+.toast.error { background: #fde8e9; color: #b3262b; }
 .canvas {
   overflow: auto;
-  background: #fbfcff;
-  border: 1px dashed var(--line);
-  border-radius: 12px;
-  min-height: 380px;
+  background:
+    linear-gradient(var(--line) 1px, transparent 1px) 0 0 / 100% 36px,
+    linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / 36px 100%,
+    #fbfcff;
+  background-blend-mode: soft-light;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  min-height: 420px;
+  padding: 8px;
 }
 .canvas svg { display: block; margin: 0 auto; }
-.edge { stroke: #9aa5d6; stroke-width: 2; }
-.edge.active { stroke: var(--orange); stroke-width: 3.5; }
-.node circle {
-  fill: #e6ecff;
-  stroke: var(--blue);
-  stroke-width: 2.5;
-  cursor: pointer;
-  transition: fill 0.2s;
+.empty-state {
+  padding: 90px 24px;
+  text-align: center;
+  color: var(--muted);
 }
-.node.root circle { fill: #ffe4d6; stroke: var(--orange); }
-.node.leaf circle { fill: #d6f7f0; stroke: var(--green); }
+.empty-state b { display: block; color: var(--navy); font-size: 18px; margin-bottom: 6px; }
+.edge { stroke: #b4bde3; stroke-width: 2.5; fill: none; stroke-linecap: round; transition: stroke 0.3s; }
+.edge.active { stroke: var(--orange); stroke-width: 4; }
+.node circle {
+  fill: var(--blue-soft);
+  stroke: var(--blue);
+  stroke-width: 3;
+  cursor: pointer;
+  filter: drop-shadow(0 4px 6px rgba(30, 42, 94, 0.18));
+  transition: fill 0.25s, stroke 0.25s, r 0.2s;
+}
+.node:hover circle { r: 30; }
+.node.root circle { fill: var(--orange-soft); stroke: var(--orange); }
+.node.leaf circle { fill: var(--green-soft); stroke: var(--green); }
 .node.active circle { fill: var(--orange); stroke: var(--navy); }
 .node.found circle { fill: var(--green); stroke: var(--navy); }
-.node text { font-size: 12px; font-weight: 700; fill: var(--navy); pointer-events: none; text-anchor: middle; }
-.node.active text, .node.found text { fill: #fff; }
-.legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; color: var(--muted); }
-.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: middle; border: 2px solid; }
-.sequence { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; min-height: 34px; }
+.node text.id { font-size: 12px; font-weight: 800; fill: var(--navy); pointer-events: none; text-anchor: middle; }
+.node text.who { font-size: 11px; font-weight: 600; fill: var(--muted); stroke: #fbfcff; stroke-width: 4px; paint-order: stroke; stroke-linejoin: round; pointer-events: none; text-anchor: middle; }
+.node.active text.id, .node.found text.id { fill: #fff; }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 14px; font-size: 12px; color: var(--muted); font-weight: 600; }
+.legend i { display: inline-block; width: 13px; height: 13px; border-radius: 50%; margin-right: 6px; vertical-align: -2px; border: 2.5px solid; }
+.sequence { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; min-height: 38px; }
+.sequence .hint { color: var(--muted); font-size: 13px; }
 .chip {
-  background: #e6ecff;
+  background: var(--blue-soft);
   color: var(--navy);
   border-radius: 999px;
-  padding: 4px 12px;
+  padding: 5px 13px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  transition: background 0.25s, color 0.25s, transform 0.25s;
 }
-.chip.lit { background: var(--orange); color: #fff; }
-.detail { font-size: 14px; line-height: 1.7; }
-.detail b { color: var(--purple); }
+.chip.lit { background: var(--orange); color: #fff; transform: scale(1.06); }
+.detail { font-size: 14px; line-height: 1.5; }
+.detail .name { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+.detail dl { margin: 0; display: grid; grid-template-columns: 110px 1fr; gap: 8px 10px; }
+.detail dt { color: var(--muted); font-weight: 600; font-size: 13px; }
+.detail dd { margin: 0; font-weight: 600; }
+.detail .path { margin-top: 12px; padding: 10px 12px; background: var(--orange-soft); border-radius: 10px; font-size: 13px; color: #a5441a; font-weight: 600; }
 .detail .empty { color: var(--muted); }
-.traversals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-.traversals button { margin-top: 0; }
+.traversals { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (max-width: 560px) { .traversals { grid-template-columns: 1fr; } }
+footer { text-align: center; color: var(--muted); font-size: 12px; padding: 0 0 26px; }
 </style>
 </head>
 <body>
 <header>
   <div>
-    <h1>Hospital <span>Patient Registry</span></h1>
-    <p>Patients stored in a binary search tree and ordered by patient ID</p>
+    <div class="brand">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.5"/><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M11 7.3 7 16.7M13 7.3l4 9.4"/></svg>
+      </div>
+      <div>
+        <h1>Hospital <span>Patient Registry</span></h1>
+        <p>Patients stored in a binary search tree and ordered by patient ID</p>
+      </div>
+    </div>
   </div>
   <div class="stats">
     <div class="stat"><b id="statSize">0</b><small>Patients</small></div>
@@ -366,7 +474,7 @@ button.green { background: var(--green); }
 <main>
   <aside>
     <section class="card">
-      <h2>Admit patient</h2>
+      <h2><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>Admit patient</h2>
       <label for="pid">Patient ID</label>
       <input id="pid" type="number" min="1" placeholder="e.g. 4500">
       <label for="pname">Full name</label>
@@ -384,7 +492,7 @@ button.green { background: var(--green); }
       <button id="addBtn">Add to registry</button>
     </section>
     <section class="card">
-      <h2>Search or discharge</h2>
+      <h2><span class="dot blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>Search or discharge</h2>
       <label for="sid">Patient ID</label>
       <input id="sid" type="number" min="1" placeholder="e.g. 6050">
       <div class="row">
@@ -394,13 +502,13 @@ button.green { background: var(--green); }
       <div id="toast" class="toast"></div>
     </section>
     <section class="card">
-      <h2>Selected patient</h2>
+      <h2><span class="dot green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span>Selected patient</h2>
       <div id="detail" class="detail"><span class="empty">Click a node or search an ID.</span></div>
     </section>
   </aside>
   <section>
     <div class="card">
-      <h2>Registry tree</h2>
+      <h2><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/><path d="M11 7 7 17M13 7l4 10"/></svg></span>Registry tree</h2>
       <div class="canvas" id="canvas"></div>
       <div class="legend">
         <span><i style="background:#ffe4d6;border-color:#ff7a45"></i>Root</span>
@@ -411,21 +519,22 @@ button.green { background: var(--green); }
       </div>
     </div>
     <div class="card">
-      <h2>Traversals</h2>
+      <h2><span class="dot purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h12M12 6l6 6-6 6"/></svg></span>Traversals</h2>
       <div class="traversals">
         <button class="purple" data-kind="in_order">In-order (sorted by ID)</button>
         <button class="purple" data-kind="pre_order">Pre-order</button>
         <button class="purple" data-kind="post_order">Post-order</button>
         <button class="purple" data-kind="level_order">Level-order (by depth)</button>
       </div>
-      <div class="sequence" id="sequence"></div>
+      <div class="sequence" id="sequence"><span class="hint">Choose a traversal to see the visiting order.</span></div>
     </div>
   </section>
 </main>
+<footer>Data Structures workshop &middot; Binary search tree case study</footer>
 <script>
 const NODE_RADIUS = 26;
-const X_GAP = 70;
-const Y_GAP = 90;
+const X_GAP = 76;
+const Y_GAP = 100;
 const MARGIN = 40;
 
 const state = { tree: null, selected: null, visited: [], found: null, lit: -1 };
@@ -471,7 +580,7 @@ function collectEdges(node, edges) {
 function renderTree() {
   const canvas = $("canvas");
   if (!state.tree) {
-    canvas.innerHTML = '<p style="padding:24px;color:#6b7399">The registry is empty. Admit a patient to create the root.</p>';
+    canvas.innerHTML = '<div class="empty-state"><b>The registry is empty</b>Admit a patient to create the root of the tree.</div>';
     return;
   }
   const { nodes, count } = layout(state.tree);
@@ -480,12 +589,13 @@ function renderTree() {
   let maxDepth = 0;
   nodes.forEach((n) => { maxDepth = Math.max(maxDepth, Math.round((n.y - MARGIN) / Y_GAP)); });
   const width = MARGIN * 2 + Math.max(count - 1, 1) * X_GAP;
-  const height = MARGIN * 2 + maxDepth * Y_GAP;
+  const height = MARGIN * 2 + maxDepth * Y_GAP + 20;
   const visitedSet = new Set(state.visited);
   let svg = '<svg width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + " " + height + '">';
   edges.forEach((e) => {
     const active = visitedSet.has(e.from.id) && visitedSet.has(e.to.id);
-    svg += '<line class="edge' + (active ? " active" : "") + '" x1="' + e.from.x + '" y1="' + e.from.y + '" x2="' + e.to.x + '" y2="' + e.to.y + '"/>';
+    const midY = (e.from.y + e.to.y) / 2;
+    svg += '<path class="edge' + (active ? " active" : "") + '" d="M' + e.from.x + " " + e.from.y + " C" + e.from.x + " " + midY + " " + e.to.x + " " + midY + " " + e.to.x + " " + e.to.y + '"/>';
   });
   nodes.forEach((n) => {
     const classes = ["node"];
@@ -494,7 +604,7 @@ function renderTree() {
     if (visitedSet.has(n.id)) classes.push("active");
     if (state.found === n.id) classes.push("found");
     svg += '<g class="' + classes.join(" ") + '" data-id="' + n.id + '" transform="translate(' + n.x + "," + n.y + ')">';
-    svg += '<circle r="' + NODE_RADIUS + '"/><text y="4">' + n.id + "</text></g>";
+    svg += '<circle r="' + NODE_RADIUS + '"/><text class="id" y="4">' + n.id + '</text><text class="who" y="' + (NODE_RADIUS + 16) + '">' + escapeHtml(n.name.split(" ")[0]) + "</text></g>";
   });
   svg += "</svg>";
   canvas.innerHTML = svg;
@@ -517,9 +627,11 @@ function renderDetail(patient, path) {
     return;
   }
   el.innerHTML =
-    "<b>ID:</b> " + patient.id + "<br><b>Name:</b> " + escapeHtml(patient.name) +
-    "<br><b>Age:</b> " + patient.age + "<br><b>Diagnosis:</b> " + escapeHtml(patient.diagnosis) +
-    (path ? "<br><b>Comparisons:</b> " + path.length + " (" + path.join(" &rarr; ") + ")" : "");
+    '<div class="name">' + escapeHtml(patient.name) + "</div><dl>" +
+    "<dt>Patient ID</dt><dd>" + patient.id + "</dd>" +
+    "<dt>Age</dt><dd>" + patient.age + " years</dd>" +
+    "<dt>Diagnosis</dt><dd>" + escapeHtml(patient.diagnosis) + "</dd></dl>" +
+    (path ? '<div class="path">' + path.length + " comparisons: " + path.join(" &rarr; ") + "</div>" : "");
 }
 
 function escapeHtml(text) {
@@ -600,6 +712,9 @@ async function runTraversal(kind) {
   const { data } = await api("/api/traversal?kind=" + kind);
   const box = $("sequence");
   box.innerHTML = "";
+  document.querySelectorAll("[data-kind]").forEach((btn) => {
+    btn.classList.toggle("on", btn.dataset.kind === kind);
+  });
   state.found = null;
   state.visited = [];
   renderTree();
